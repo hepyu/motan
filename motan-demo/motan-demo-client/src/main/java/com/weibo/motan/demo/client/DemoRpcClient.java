@@ -20,18 +20,47 @@ import com.weibo.motan.demo.service.MotanDemoService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.atomic.AtomicLong;
+
 public class DemoRpcClient {
+    private static final ExecutorService executorService = Executors.newFixedThreadPool(2);
+    private static AtomicLong successCount = new AtomicLong();
+    private static AtomicLong errorCount = new AtomicLong();
 
     public static void main(String[] args) throws InterruptedException {
-
         ApplicationContext ctx = new ClassPathXmlApplicationContext(new String[]{"classpath:motan_demo_client.xml"});
-
-        MotanDemoService service = (MotanDemoService) ctx.getBean("motanDemoReferer");
-        for (int i = 0; i < Integer.MAX_VALUE; i++) {
-            System.out.println(service.hello("motan" + i));
-            Thread.sleep(1000);
+        final MotanDemoService service = (MotanDemoService) ctx.getBean("motanDemoReferer");
+        Thread.sleep(2000);
+        for (int i = 0; i < 1000; i++) {
+            final int finalI = i;
+            executorService.submit(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        System.out.println(service.hello("motan" + finalI));
+                        successCount.incrementAndGet();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        errorCount.incrementAndGet();
+                    }
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
         }
-        System.out.println("motan demo is finish.");
+
+        executorService.shutdown();
+        for (;;) {
+            if (executorService.isTerminated())
+                break;
+        }
+        System.out.println("motan demo is finish. success: " + successCount.get() + " error: " + errorCount);
         System.exit(0);
     }
 

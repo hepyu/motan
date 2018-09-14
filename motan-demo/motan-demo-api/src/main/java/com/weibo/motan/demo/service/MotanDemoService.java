@@ -18,8 +18,10 @@ package com.weibo.motan.demo.service;
 
 import com.weibo.api.motan.transport.async.MotanAsync;
 
-@MotanAsync
+//@MotanAsync
 public interface MotanDemoService {
 	String hello(String name);
-
+	String hello2(String name);
+	String hello3(String name);
+	String hello4(String name);
 }

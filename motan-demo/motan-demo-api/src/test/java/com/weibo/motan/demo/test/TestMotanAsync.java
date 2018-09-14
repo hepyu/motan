@@ -13,36 +13,36 @@
  */
 package com.weibo.motan.demo.test;
 
-import java.lang.reflect.Method;
-
-import org.junit.Test;
-
-import com.weibo.api.motan.common.MotanConstants;
-import com.weibo.api.motan.rpc.ResponseFuture;
-import com.weibo.motan.demo.service.TestInterface;
-import com.weibo.motan.demo.service.TestInterfaceAsync;
-import com.weibo.motan.demo.service.TestSuperInterface;
-
-import static org.junit.Assert.*;
+//import com.weibo.api.motan.common.MotanConstants;
+//import com.weibo.api.motan.rpc.ResponseFuture;
+//import com.weibo.motan.demo.service.TestInterface;
+//import com.weibo.motan.demo.service.TestInterfaceAsync;
+//import com.weibo.motan.demo.service.TestSuperInterface;
+//import org.junit.Test;
+//
+//import java.lang.reflect.Method;
+//
+//import static org.junit.Assert.assertEquals;
+//import static org.junit.Assert.assertNotNull;
 
 public class TestMotanAsync {
-    @Test
-    public void testAsyncMethodGenerate() throws NoSuchMethodException, SecurityException {
-        // direct methods and origin methods
-        validateMethods(TestInterface.class.getDeclaredMethods(), TestInterfaceAsync.class);
-
-        // methods from superinterface
-        validateMethods(TestSuperInterface.class.getDeclaredMethods(), TestInterfaceAsync.class);
-
-    }
-
-    private void validateMethods(Method[] methods, Class<?> targetClazz) throws NoSuchMethodException, SecurityException {
-        for (Method m : methods) {
-            assertNotNull(targetClazz.getMethod(m.getName(), m.getParameterTypes()));
-            Method asyncMethod = targetClazz.getMethod(m.getName() + MotanConstants.ASYNC_SUFFIX, m.getParameterTypes());
-            assertNotNull(asyncMethod);
-            assertEquals(ResponseFuture.class, asyncMethod.getReturnType());
-        }
-    }
+//    @Test
+//    public void testAsyncMethodGenerate() throws NoSuchMethodException, SecurityException {
+//        // direct methods and origin methods
+//        validateMethods(TestInterface.class.getDeclaredMethods(), TestInterfaceAsync.class);
+//
+//        // methods from superinterface
+//        validateMethods(TestSuperInterface.class.getDeclaredMethods(), TestInterfaceAsync.class);
+//
+//    }
+//
+//    private void validateMethods(Method[] methods, Class<?> targetClazz) throws NoSuchMethodException, SecurityException {
+//        for (Method m : methods) {
+//            assertNotNull(targetClazz.getMethod(m.getName(), m.getParameterTypes()));
+//            Method asyncMethod = targetClazz.getMethod(m.getName() + MotanConstants.ASYNC_SUFFIX, m.getParameterTypes());
+//            assertNotNull(asyncMethod);
+//            assertEquals(ResponseFuture.class, asyncMethod.getReturnType());
+//        }
+//    }
 
 }

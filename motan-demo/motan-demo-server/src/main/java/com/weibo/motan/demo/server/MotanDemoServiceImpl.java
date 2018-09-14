@@ -23,8 +23,29 @@ import com.weibo.motan.demo.service.MotanDemoService;
 public class MotanDemoServiceImpl implements MotanDemoService {
 
     public String hello(String name) {
-        System.out.println(name);
+        System.out.println(Thread.currentThread().getName() + "  " + name);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return "Hello " + name + "!";
     }
+
+    @Override
+    public String hello2(String name) {
+        return null;
+    }
+
+    @Override
+    public String hello3(String name) {
+        return null;
+    }
+
+    @Override
+    public String hello4(String name) {
+        return null;
+    }
+
 
 }

@@ -13,13 +13,13 @@
  */
 package com.weibo.motan.demo.client;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import com.weibo.api.motan.rpc.Future;
-import com.weibo.api.motan.rpc.FutureListener;
-import com.weibo.api.motan.rpc.ResponseFuture;
-import com.weibo.motan.demo.service.MotanDemoServiceAsync;
+//import org.springframework.context.ApplicationContext;
+//import org.springframework.context.support.ClassPathXmlApplicationContext;
+//
+//import com.weibo.api.motan.rpc.Future;
+//import com.weibo.api.motan.rpc.FutureListener;
+//import com.weibo.api.motan.rpc.ResponseFuture;
+//import com.weibo.motan.demo.service.MotanDemoServiceAsync;
 
 public class DemoRpcAsyncClient {
 
@@ -32,44 +32,44 @@ public class DemoRpcAsyncClient {
      * 
      */
     public static void main(String[] args) {
-        ApplicationContext ctx = new ClassPathXmlApplicationContext(new String[] {"classpath:motan_demo_async_client.xml"});
-
-        MotanDemoServiceAsync service = (MotanDemoServiceAsync) ctx.getBean("motanDemoReferer");
-        for (int i = 0; i < Integer.MAX_VALUE; i++) {
-            // sync call
-            System.out.println(service.hello("motan" + i));
-
-            // async call
-            ResponseFuture future = service.helloAsync("motan async " + i);
-            System.out.println(future.getValue());
-
-            // multi call
-            ResponseFuture future1 = service.helloAsync("motan async multi-1-" + i);
-            ResponseFuture future2 = service.helloAsync("motan async multi-2-" + i);
-            System.out.println(future1.getValue() + ", " + future2.getValue());
-
-            // async with listener
-            ResponseFuture future3 = service.helloAsync("motan async multi-1-" + i);
-            ResponseFuture future4 = service.helloAsync("motan async multi-2-" + i);
-            FutureListener listener = new FutureListener() {
-                @Override
-                public void operationComplete(Future future) throws Exception {
-                    System.out.println("async call "
-                            + (future.isSuccess() ? "sucess! value:" + future.getValue() : "fail! exception:"
-                                    + future.getException().getMessage()));
-                }
-            };
-            future3.addListener(listener);
-            future4.addListener(listener);
-
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        System.out.println("motan demo is finish.");
-        System.exit(0);
+//        ApplicationContext ctx = new ClassPathXmlApplicationContext(new String[] {"classpath:motan_demo_async_client.xml"});
+//
+//        MotanDemoServiceAsync service = (MotanDemoServiceAsync) ctx.getBean("motanDemoReferer");
+//        for (int i = 0; i < Integer.MAX_VALUE; i++) {
+//            // sync call
+//            System.out.println(service.hello("motan" + i));
+//
+//            // async call
+//            ResponseFuture future = service.helloAsync("motan async " + i);
+//            System.out.println(future.getValue());
+//
+//            // multi call
+//            ResponseFuture future1 = service.helloAsync("motan async multi-1-" + i);
+//            ResponseFuture future2 = service.helloAsync("motan async multi-2-" + i);
+//            System.out.println(future1.getValue() + ", " + future2.getValue());
+//
+//            // async with listener
+//            ResponseFuture future3 = service.helloAsync("motan async multi-1-" + i);
+//            ResponseFuture future4 = service.helloAsync("motan async multi-2-" + i);
+//            FutureListener listener = new FutureListener() {
+//                @Override
+//                public void operationComplete(Future future) throws Exception {
+//                    System.out.println("async call "
+//                            + (future.isSuccess() ? "sucess! value:" + future.getValue() : "fail! exception:"
+//                                    + future.getException().getMessage()));
+//                }
+//            };
+//            future3.addListener(listener);
+//            future4.addListener(listener);
+//
+//            try {
+//                Thread.sleep(1000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        System.out.println("motan demo is finish.");
+//        System.exit(0);
 
     }
 
