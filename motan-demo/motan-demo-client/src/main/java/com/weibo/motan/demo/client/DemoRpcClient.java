@@ -17,6 +17,7 @@
 package com.weibo.motan.demo.client;
 
 import com.weibo.motan.demo.service.MotanDemoService;
+import com.weibo.motan.demo.service.MotanDemoSingleMethodService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -26,21 +27,21 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class DemoRpcClient {
-    private static final ExecutorService executorService = Executors.newFixedThreadPool(2);
+    private static final ExecutorService executorService = Executors.newFixedThreadPool(150);
     private static AtomicLong successCount = new AtomicLong();
     private static AtomicLong errorCount = new AtomicLong();
 
     public static void main(String[] args) throws InterruptedException {
-        ApplicationContext ctx = new ClassPathXmlApplicationContext(new String[]{"classpath:motan_demo_client.xml"});
-        final MotanDemoService service = (MotanDemoService) ctx.getBean("motanDemoReferer");
-        Thread.sleep(2000);
+        final ApplicationContext ctx = new ClassPathXmlApplicationContext(new String[]{"classpath:motan_demo_client.xml"});
         for (int i = 0; i < 1000; i++) {
             final int finalI = i;
             executorService.submit(new Runnable() {
                 @Override
                 public void run() {
                     try {
-                        System.out.println(service.hello("motan" + finalI));
+                        //MotanDemoService service = (MotanDemoService) ctx.getBean("motanDemoReferer");
+                        MotanDemoSingleMethodService service = (MotanDemoSingleMethodService) ctx.getBean("motanDemoSingleReferer");
+                        System.out.println(Thread.currentThread().getName() + "  " + service.hello("motan" + finalI));
                         successCount.incrementAndGet();
                     } catch (Exception e) {
                         e.printStackTrace();
